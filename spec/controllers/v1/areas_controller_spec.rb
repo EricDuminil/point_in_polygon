@@ -30,7 +30,7 @@ RSpec.describe V1::AreasController, type: :controller do
         expect(response.body).to eq "true"
       end
 
-      it "returns false for Frankfurt" do
+      it "returns false for London" do
         get :contain, params: {latitude:51.5074, longitude:-0.1278}
         expect(response.body).to eq "false"
       end
