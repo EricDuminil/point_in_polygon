@@ -4,7 +4,8 @@ class V1::AreasController < ApplicationController
   end
 
   def contain
-    point = {type: 'Point', coordinates: [params[:longitude], params[:latitude]]}.to_json #TODO: DRY
-    render json: Area.contains?(point)
+    latitude = params[:latitude] || params[:coordinates].last
+    longitude = params[:longitude] || params[:coordinates].first
+    render json: Area.contains?(longitude.to_f, latitude.to_f)
   end
 end
