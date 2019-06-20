@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Area, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context '.all' do
+    it 'lists every area' do
+      areas = Area.all
+      expect(areas).to be_an Enumerable
+    end
+  end
 end
