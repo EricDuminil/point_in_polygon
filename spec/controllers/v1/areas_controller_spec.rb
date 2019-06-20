@@ -36,6 +36,30 @@ RSpec.describe V1::AreasController, type: :controller do
       end
     end
 
+    context "when called with coordinates params" do
+      it "returns true for Frankfurt" do
+        get :contain, params: {coordinates: [8.6821, 50.1109]}
+        expect(response.body).to eq "true"
+      end
+
+      it "returns false for London" do
+        get :contain, params: {coordinates: [-0.1278, 51.5074]}
+        expect(response.body).to eq "false"
+      end
+    end
+
+    context "when called with a GeoJSON Point" do
+      it "returns true for Frankfurt" do
+        get :contain, params: {type:"Point", coordinates: [8.6821, 50.1109]}, as: :json
+        expect(response.body).to eq "true"
+      end
+
+      it "returns false for London" do
+        get :contain, params: {type:"Point", coordinates: [-0.1278, 51.5074]}, as: :json
+        expect(response.body).to eq "false"
+      end
+    end
+
     context "when called without params" do
       it "sends an error message" do
         get :contain
