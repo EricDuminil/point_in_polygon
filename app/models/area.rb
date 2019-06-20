@@ -6,15 +6,11 @@ class Area
     @@areas ||= import File.read(SOURCE)
   end
 
-  def self.contains?(geo_json_point)
-    point = RGeo::GeoJSON.decode(geo_json_point)
+  def self.contains?(latitude, longitude)
+    point = factory.point(longitude, latitude) #WARNING! Lon/Lat convention in RGeo.
     all.any? do |area|
-      area.contains? point
+      area.geometry.contains? point
     end
-  end
-
-  def contains?(point)
-    geometry.contains? point
   end
 
   def self.to_json(*options)
@@ -26,6 +22,10 @@ class Area
   end
 
   private
+
+  def self.factory
+    @@factory ||= RGeo::Cartesian.factory
+  end
 
   def self.import(geo_json)
     @@json = geo_json

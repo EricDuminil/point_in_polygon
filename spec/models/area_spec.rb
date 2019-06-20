@@ -1,9 +1,5 @@
 require 'rails_helper'
 
-def geo_json_point(latitude, longitude)
-  {type: 'Point', coordinates: [longitude, latitude]}.to_json # WARNING: Lon/Lat Convention in GeoJSON!
-end
-
 RSpec.describe Area, type: :model do
   describe '.all' do
     areas = Area.all
@@ -33,7 +29,7 @@ RSpec.describe Area, type: :model do
   describe '.contains?' do
     context 'when called with a valid GeoJSON point' do
       it 'returns a boolean' do
-        expect(Area.contains?(geo_json_point(0, 0))).to be(false).or be(true)
+        expect(Area.contains?(0, 0)).to be(false).or be(true)
       end
 
       # Checked with http://geojson.io
@@ -57,9 +53,8 @@ RSpec.describe Area, type: :model do
       inside_outside_points.each do |inside_or_outside, points|
         points.each do |name, (lat, lon)|
           it "checks that #{name.to_s.titleize} is #{inside_or_outside}" do
-          point = geo_json_point(lat, lon)
           is_inside = inside_or_outside == :inside
-          expect(Area.contains? point).to eq is_inside
+          expect(Area.contains?(lat, lon)).to eq is_inside
         end
         end
       end
