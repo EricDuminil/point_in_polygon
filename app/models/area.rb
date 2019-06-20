@@ -17,7 +17,7 @@ class Area
     geometry.contains? point
   end
 
-  def self.to_json
+  def self.to_json(*options)
     all && @@json
   end
 
