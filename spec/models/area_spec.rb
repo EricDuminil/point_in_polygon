@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 def geo_json_point(latitude, longitude)
-  %Q|{ "type": "Point", "coordinates": [#{longitude}, #{latitude}] }| # WARNING: Lon/Lat Convention!
+   {type: 'Point', coordinates: [longitude, latitude]}.to_json # WARNING: Lon/Lat Convention in GeoJSON!
 end
 
 RSpec.describe Area, type: :model do
-  context '.all' do
+  describe '.all' do
     areas = Area.all
 
     it 'lists every area' do
@@ -20,7 +20,7 @@ RSpec.describe Area, type: :model do
     end
   end
 
-  context '.to_json' do
+  describe '.to_json' do
     it 'exports GeoJSON' do
       geo_json = Area.to_json
       expect(geo_json).to be_a String
@@ -30,7 +30,7 @@ RSpec.describe Area, type: :model do
     end
   end
 
-  context '.contains?' do
+  describe '.contains?' do
     it 'checks if a given location is inside any of the given areas' do
       expect(Area.contains?(geo_json_point(0, 0))).to eq false
     end
