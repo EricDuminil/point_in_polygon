@@ -54,7 +54,7 @@ RSpec.describe Area, type: :model do
         points.each do |name, (lat, lon)|
           it "checks that #{name.to_s.titleize} is #{inside_or_outside}" do
           is_inside = inside_or_outside == :inside
-          expect(Area.contains?(lat, lon)).to eq is_inside
+          expect(Area.contains?(lon, lat)).to eq is_inside
         end
         end
       end

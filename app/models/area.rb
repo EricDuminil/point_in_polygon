@@ -6,8 +6,8 @@ class Area
     @@areas ||= import File.read(SOURCE)
   end
 
-  def self.contains?(latitude, longitude)
-    point = factory.point(longitude, latitude) #WARNING! Lon/Lat convention in RGeo.
+  def self.contains?(longitude, latitude) #WARNING! Lon/Lat convention, as in GeoJSON
+    point = factory.point(longitude, latitude)
     all.any? do |area|
       area.geometry.contains? point
     end
