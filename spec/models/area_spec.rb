@@ -31,29 +31,36 @@ RSpec.describe Area, type: :model do
   end
 
   describe '.contains?' do
-    it 'checks if a given location is inside any of the given areas' do
-      expect(Area.contains?(geo_json_point(0, 0))).to eq false
-    end
+    context 'when called with a valid GeoJSON point' do
+      it 'returns a boolean' do
+        expect(Area.contains?(geo_json_point(0, 0))).to be(false).or be(true)
+      end
 
-    inside_outside_points = {
-      inside: {
-        knoxville: [35.979643, -83.920342],
-        phoenix: [33.45, -112.066667],
-        lilongwe: [-13.983333, 33.783333],
-        toulouse: [43.602522, 1.429410],
-      },
-      outside: {
-        salt_lake_city: [40.75, -111.883],
-        n_y_c: [40.7128, -74.0060],
-        nairobi: [-1.2833, 36.8167],
-        monaco: [43.736981, 7.421389],
+      # Checked with http://geojson.io
+      inside_outside_points = {
+        inside: {
+          knoxville: [35.979643, -83.920342],
+          phoenix: [33.45, -112.066667],
+          lilongwe: [-13.983333, 33.783333],
+          toulouse: [43.602522, 1.429410],
+          bratislava: [48.138128, 17.117986],
+        },
+        outside: {
+          salt_lake_city: [40.75, -111.883],
+          n_y_c: [40.7128, -74.0060],
+          nairobi: [-1.2833, 36.8167],
+          monaco: [43.736981, 7.421389],
+          wien: [48.2082, 16.3738],
+        }
       }
-    }
 
-    inside_outside_points.each do |inside_or_outside, points|
-      points.each do |name, (lat, lon)|
-        it "checks that #{name.to_s.titleize} is #{inside_or_outside}" do
-          expect(Area.contains?(geo_json_point(lat, lon))).to eq (inside_or_outside == :inside)
+      inside_outside_points.each do |inside_or_outside, points|
+        points.each do |name, (lat, lon)|
+          it "checks that #{name.to_s.titleize} is #{inside_or_outside}" do
+          point = geo_json_point(lat, lon)
+          is_inside = inside_or_outside == :inside
+          expect(Area.contains? point).to eq is_inside
+        end
         end
       end
     end
