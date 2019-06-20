@@ -1,5 +1,13 @@
 class Area
+  SOURCE = Rails.root.join('db/Given_areas.json')
+
   def self.all
-    [1, 2, 3, 4, 5, 6]
+    @@all ||= import File.read(SOURCE)
+  end
+
+  private
+
+  def self.import(geo_json)
+    RGeo::GeoJSON.decode(geo_json)
   end
 end
