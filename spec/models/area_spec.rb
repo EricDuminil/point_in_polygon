@@ -27,7 +27,7 @@ RSpec.describe Area, type: :model do
   end
 
   describe '.contains?' do
-    context 'when called with a valid GeoJSON point' do
+    context 'when called with valid coordinates' do
       it 'returns a boolean' do
         expect(Area.contains?(0, 0)).to be(false).or be(true)
       end
@@ -53,9 +53,23 @@ RSpec.describe Area, type: :model do
       inside_outside_points.each do |inside_or_outside, points|
         points.each do |name, (lat, lon)|
           it "checks that #{name.to_s.titleize} is #{inside_or_outside}" do
-          is_inside = inside_or_outside == :inside
-          expect(Area.contains?(lon, lat)).to eq is_inside
+            is_inside = inside_or_outside == :inside
+            expect(Area.contains?(lon, lat)).to eq is_inside
+          end
         end
+      end
+
+      context 'when called with invalid coordinates' do
+        it 'raises an Error' do
+          [
+            ['ABC', 'DEF'],
+            ['3°N', '5°W'],
+            [nil, 3],
+            [nil, nil],
+            [3, nil]
+          ].each do |lat, lon|
+            expect { Area.contains?(lat, lon) }.to raise_error(StandardError)
+          end
         end
       end
     end
