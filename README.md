@@ -1,4 +1,7 @@
 # Point in Polygons
+
+[![Build Status](https://travis-ci.com/EricDuminil/point_in_polygon.svg?branch=master)](https://travis-ci.com/EricDuminil/point_in_polygon)
+
 ## Goal
 This is a simple project, allowing me to play a bit with Rails/RGeo/GeoJSON.
 
