@@ -5,6 +5,6 @@ class ApplicationController < ActionController::API
       v1_areas_contain_url
     ]
 
-    render json: {error: "The desired resource doesn't exist. Please try #{known_routes.to_sentence}"}, status: :not_found
+    render json: {error: "The desired resource doesn't exist. Please try #{known_routes.to_sentence}. Visit https://github.com/EricDuminil/point_in_polygon for more info."}, status: :not_found
   end
 end
