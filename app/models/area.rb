@@ -19,7 +19,7 @@ class Area
   end
 
   def initialize(polygon_feature)
-    @geometry = polygon_feature.geometry
+    @geometry = Polygon.new(polygon_feature.geometry)
   end
 
   private
