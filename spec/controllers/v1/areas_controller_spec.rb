@@ -105,4 +105,18 @@ RSpec.describe V1::AreasController, type: :controller do
       end
     end
   end
+
+  describe "GET any_other_action" do
+    it "sends an error message" do
+      get "hello_world"
+      expect(response).to have_http_status(:bad_request)
+    end
+  end
+
+  describe "POST any_action" do
+    it "sends an error message" do
+      post "hello_world"
+      expect(response).to have_http_status(:bad_request)
+    end
+  end
 end
