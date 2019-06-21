@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/EricDuminil/point_in_polygon.svg?branch=master)](https://travis-ci.com/EricDuminil/point_in_polygon)
 
 ## Goal
-This is a simple project, allowing me to play a bit with Rails/RGeo/GeoJSON.
+This is a simple project, allowing me to play a bit with Rails/GeoJSON and 2D algorithms.
 
 * Given a list of fixed geographical areas:
 ![shapes](https://raw.githubusercontent.com/EricDuminil/point_in_polygon/master/public/shapes.png)
@@ -12,8 +12,7 @@ This is a simple project, allowing me to play a bit with Rails/RGeo/GeoJSON.
 ## Info
 
 * Written in Rails 2.5.3, with Ruby 2.4.1 on Linux.
-* It uses [RGeo](https://github.com/rgeo/rgeo) for geometry calculations.
-* [GEOS](https://trac.osgeo.org/geos) should be installed, and `RGeo::Geos.supported?` should be `true`.
+* It doesn't use any external geo-utilities.
 
 ## Specs
 
