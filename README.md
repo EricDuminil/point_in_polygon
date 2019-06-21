@@ -3,7 +3,7 @@
 This is a simple project, allowing me to play a bit with Rails/RGeo/GeoJSON.
 
 * Given a list of fixed geographical areas:
-![shapes](https://i.imgur.com/h469F87.png)
+![shapes](https://raw.githubusercontent.com/EricDuminil/point_in_polygon/master/public/shapes.png)
 * This API-only Rails app determines if an incoming Location is inside any of the areas.
 
 ## Info
