@@ -1,20 +1,32 @@
 class V1::AreasController < ApplicationController
-  rescue_from TypeError, :with => :incorrect_coordinates
-  rescue_from ArgumentError, :with => :incorrect_coordinates
+  before_action :extract_coordinates, only: [:contain]
 
   def index
     render json: Area.all_as_geo_json
   end
 
   def contain
-    longitude = params[:longitude] || params.dig(:coordinates, 0)
-    latitude = params[:latitude] || params.dig(:coordinates, 1)
-    render json: Area.contains?(longitude, latitude)
+    render json: Area.contains?(@longitude, @latitude)
   end
 
   private
 
-  def incorrect_coordinates(exception)
-    render json: {error: "Invalid coordinates! #{exception.message}"}, status: 500
+  # Coordinates can be in different places inside params
+  def extract_coordinates
+    begin
+      @longitude = Float(params[:longitude] || params.dig(:coordinates, 0) || params.dig(:geometry, :coordinates, 0))
+      @latitude = Float(params[:latitude] || params.dig(:coordinates, 1) || params.dig(:geometry, :coordinates, 1))
+    rescue TypeError, ArgumentError => exception
+      invalid_coordinates!(exception)
+    end
+  end
+
+  def invalid_coordinates!(exception)
+    render json: {error:
+                  [
+                    "Invalid coordinates!",
+                    "Please add :latitude and :longitude as parameters, send a GeoJSON of type Point, or a GeoJSON Feature Point.",
+                    "Error Message: '#{exception.message}'"].join(" ")
+    }, status: :bad_request
   end
 end
