@@ -13,8 +13,9 @@ class Area
     end
   end
 
-  def self.to_json(*options)
-    all && @@json
+  def self.all_as_geo_json
+    all # to make sure SOURCE has been imported
+    @@geo_json
   end
 
   def initialize(polygon_feature)
@@ -28,7 +29,7 @@ class Area
   end
 
   def self.import(geo_json)
-    @@json = geo_json
+    @@geo_json = geo_json
     raise "Geos should be supported! Install libgeos-3.5.0 and libgeos-dev packages before reinstalling rgeo gem" unless RGeo::Geos.supported?
     RGeo::GeoJSON.decode(geo_json).map{|feature| Area.new(feature) }
   end

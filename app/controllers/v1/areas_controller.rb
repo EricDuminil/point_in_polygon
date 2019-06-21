@@ -3,7 +3,7 @@ class V1::AreasController < ApplicationController
   rescue_from ArgumentError, :with => :incorrect_coordinates
 
   def index
-    render json: Area.to_json
+    render json: Area.all_as_geo_json
   end
 
   def contain

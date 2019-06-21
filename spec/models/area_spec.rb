@@ -18,7 +18,7 @@ RSpec.describe Area, type: :model do
 
   describe '.to_json' do
     it 'exports GeoJSON' do
-      geo_json = Area.to_json
+      geo_json = Area.all_as_geo_json
       expect(geo_json).to be_a String
       expect(geo_json).to include "Polygon"
       expect(geo_json).to include "46.66451741754235"
