@@ -20,9 +20,9 @@ RSpec.describe Area, type: :model do
     it 'exports GeoJSON' do
       geo_json = Area.all_as_geo_json
       expect(geo_json).to be_a String
-      expect(geo_json).to include "Polygon"
-      expect(geo_json).to include "46.66451741754235"
-      expect(geo_json).to include "13.886718749999998"
+      expect(geo_json).to include 'Polygon'
+      expect(geo_json).to include '46.66451741754235'
+      expect(geo_json).to include '13.886718749999998'
     end
   end
 
@@ -39,14 +39,14 @@ RSpec.describe Area, type: :model do
           phoenix: [33.45, -112.066667],
           lilongwe: [-13.983333, 33.783333],
           toulouse: [43.602522, 1.429410],
-          bratislava: [48.138128, 17.117986],
+          bratislava: [48.138128, 17.117986]
         },
         outside: {
           salt_lake_city: [40.75, -111.883],
           n_y_c: [40.7128, -74.0060],
           nairobi: [-1.2833, 36.8167],
           monaco: [43.736981, 7.421389],
-          wien: [48.2082, 16.3738],
+          wien: [48.2082, 16.3738]
         }
       }
 
@@ -62,7 +62,7 @@ RSpec.describe Area, type: :model do
       context 'when called with invalid coordinates' do
         it 'raises an Error' do
           [
-            ['ABC', 'DEF'],
+            %w[ABC DEF],
             ['3°N', '5°W'],
             [nil, 3],
             [nil, nil],
