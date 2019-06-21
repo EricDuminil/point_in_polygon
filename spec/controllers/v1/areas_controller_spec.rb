@@ -18,6 +18,11 @@ RSpec.describe V1::AreasController, type: :controller do
 
   describe "GET contain" do
     context "when called with latitude & longitude params" do
+      it "returns with status 200" do
+        get :contain, params: {latitude: 0, longitude: 0}
+        expect(response.status).to eq 200
+      end
+
       it "returns a boolean" do
         get :contain, params: {latitude: 0, longitude: 0}
         json_response = response.body
@@ -63,7 +68,8 @@ RSpec.describe V1::AreasController, type: :controller do
     context "when called without params" do
       it "sends an error message" do
         get :contain
-        pending "it should fail"
+        expect(response.status).to eq 500
+        expect(response.body).to include "Invalid coordinates!"
       end
     end
   end
