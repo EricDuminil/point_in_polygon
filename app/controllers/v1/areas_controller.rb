@@ -4,8 +4,8 @@ class V1::AreasController < ApplicationController
   end
 
   def contain
-    latitude = params[:latitude] || params[:coordinates].last
-    longitude = params[:longitude] || params[:coordinates].first
-    render json: Area.contains?(longitude.to_f, latitude.to_f)
+    longitude = params[:longitude] || params.dig(:coordinates, 0)
+    latitude = params[:latitude] || params.dig(:coordinates, 1)
+    render json: Area.contains?(longitude, latitude)
   end
 end

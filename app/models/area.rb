@@ -7,7 +7,7 @@ class Area
   end
 
   def self.contains?(longitude, latitude) #WARNING! Lon/Lat convention, as in GeoJSON
-    point = factory.point(longitude, latitude)
+    point = factory.point(Float(longitude), Float(latitude))
     all.any? do |area|
       area.geometry.contains? point
     end
