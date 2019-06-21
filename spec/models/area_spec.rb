@@ -58,18 +58,18 @@ RSpec.describe Area, type: :model do
           end
         end
       end
+    end
 
-      context 'when called with invalid coordinates' do
-        it 'raises an Error' do
-          [
-            %w[ABC DEF],
-            ['3°N', '5°W'],
-            [nil, 3],
-            [nil, nil],
-            [3, nil]
-          ].each do |lat, lon|
-            expect { Area.contains?(lat, lon) }.to raise_error(StandardError)
-          end
+    context 'when called with invalid coordinates' do
+      it 'raises an Error' do
+        [
+          %w[ABC DEF],
+          ['3°N', '5°W'],
+          [nil, 3],
+          [nil, nil],
+          [3, nil]
+        ].each do |lat, lon|
+          expect { Area.contains?(lat, lon) }.to raise_error(StandardError)
         end
       end
     end
