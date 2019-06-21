@@ -3,5 +3,6 @@ Rails.application.routes.draw do
     get 'areas', to: 'areas#index'
     get 'areas/contain', to: 'areas#contain'
   end
-  #ADD standard redirect or error message
+
+  match "*path", to: "application#unknown_route", via: :all
 end

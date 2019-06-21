@@ -107,16 +107,14 @@ RSpec.describe V1::AreasController, type: :controller do
   end
 
   describe "GET any_other_action" do
-    it "sends an error message" do
-      get "hello_world"
-      expect(response).to have_http_status(:bad_request)
+    it "routes to #unknown_route" do
+      expect(get: "hello_world").to route_to(controller: 'application', action: 'unknown_route', path: 'hello_world')
     end
   end
 
   describe "POST any_action" do
-    it "sends an error message" do
-      post "hello_world"
-      expect(response).to have_http_status(:bad_request)
+    it "routes to #unknown_route" do
+      expect(post: "hello_world").to route_to(controller: 'application', action: 'unknown_route', path: 'hello_world')
     end
   end
 end
