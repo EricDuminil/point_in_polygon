@@ -4,5 +4,6 @@ Rails.application.routes.draw do
     get 'areas/contain', to: 'areas#contain'
   end
 
+  match "/", to: "application#unknown_route", via: :all
   match "*path", to: "application#unknown_route", via: :all
 end
