@@ -1,5 +1,5 @@
 class Area
-  SOURCE = Rails.root.join('db/Given_areas.json')
+  SOURCE = Rails.root.join('db', 'Given_areas.json')
   attr_reader :geometry
 
   def self.all
