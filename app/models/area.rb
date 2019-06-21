@@ -24,14 +24,8 @@ class Area
 
   private
 
-  def self.factory
-    @@factory ||= RGeo::Cartesian.factory
-  end
-
   def self.import(geo_json)
     @@geo_json = geo_json
-    raise 'Geos should be supported! Install libgeos-3.5.0 and libgeos-dev packages before reinstalling rgeo gem' unless RGeo::Geos.supported?
-
-    RGeo::GeoJSON.decode(geo_json).map { |feature| Area.new(feature) }
+    JSON.parse(geo_json, object_class: OpenStruct).features.map { |feature| Area.new(feature) }
   end
 end
