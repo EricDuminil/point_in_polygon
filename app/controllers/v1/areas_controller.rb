@@ -26,6 +26,7 @@ class V1::AreasController < ApplicationController
                   [
                     "Invalid coordinates!",
                     "Please add :latitude and :longitude as parameters, send a GeoJSON of type Point, or a GeoJSON Feature Point.",
+                    "Example: #{v1_areas_contain_url(:latitude => 50.77, :longitude => 9.77)} .",
                     "Error Message: '#{exception.message}'"].join(" ")
     }, status: :bad_request
   end
