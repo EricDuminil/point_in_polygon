@@ -6,7 +6,7 @@ class Area
     @@areas ||= import File.read(SOURCE)
   end
 
-  def self.contains?(longitude, latitude) #WARNING! Lon/Lat convention, as in GeoJSON
+  def self.contains?(longitude, latitude) # WARNING! Lon/Lat convention, as in GeoJSON
     point = factory.point(Float(longitude), Float(latitude))
     all.any? do |area|
       area.geometry.contains? point
@@ -30,7 +30,8 @@ class Area
 
   def self.import(geo_json)
     @@geo_json = geo_json
-    raise "Geos should be supported! Install libgeos-3.5.0 and libgeos-dev packages before reinstalling rgeo gem" unless RGeo::Geos.supported?
-    RGeo::GeoJSON.decode(geo_json).map{|feature| Area.new(feature) }
+    raise 'Geos should be supported! Install libgeos-3.5.0 and libgeos-dev packages before reinstalling rgeo gem' unless RGeo::Geos.supported?
+
+    RGeo::GeoJSON.decode(geo_json).map { |feature| Area.new(feature) }
   end
 end
