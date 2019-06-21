@@ -8,8 +8,9 @@ This is a simple project, allowing me to play a bit with Rails/RGeo/GeoJSON.
 
 ## Info
 
-Written in Rails 2.5.3, with Ruby 2.4.1 on Linux.
-It uses [RGeo](https://github.com/rgeo/rgeo) for geometry calculations.
+* Written in Rails 2.5.3, with Ruby 2.4.1 on Linux.
+* It uses [RGeo](https://github.com/rgeo/rgeo) for geometry calculations.
+* [GEOS](https://trac.osgeo.org/geos) should be installed, and `RGeo::Geos.supported?` should be `true`.
 
 ## Specs
 
