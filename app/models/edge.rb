@@ -8,12 +8,9 @@ class Edge
 
   # http://geomalgorithms.com/a03-_inclusion.html
   def winding_number(point)
-    if upward_crossing?(point) && is_left_of_line?(point)
-      return 1
-    end
-    if downward_crossing?(point) && is_right_of_line?(point)
-      return -1
-    end
+    return 1 if upward_crossing?(point) && left_of_line?(point)
+    return -1 if downward_crossing?(point) && right_of_line?(point)
+
     0
   end
 
@@ -27,16 +24,16 @@ class Edge
     (v1.y > point.y) && (v2.y <= point.y)
   end
 
-  def is_left_of_line?(point)
+  def left_of_line?(point)
     compare_position(point) > 0
   end
 
-  def is_right_of_line?(point)
+  def right_of_line?(point)
     compare_position(point) < 0
   end
 
-  def is_on_line?(point)
-    compare_position == 0
+  def on_line?(point)
+    compare_position(point) == 0
   end
 
   # From http://geomalgorithms.com/a03-_inclusion.html

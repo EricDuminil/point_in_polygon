@@ -1,7 +1,7 @@
 class Point
   attr_reader :x, :y
-  alias :longitude :x
-  alias :latitude :y
+  alias longitude x
+  alias latitude y
 
   def initialize(x, y)
     @x = Float(x)
