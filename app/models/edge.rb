@@ -1,6 +1,4 @@
 class Edge
-  EPSILON = 1E-9
-
   attr_reader :v1, :v2
 
   def initialize(v1, v2)
@@ -21,7 +19,6 @@ class Edge
 
   private
 
-  # ADD EPSILON in order to make sure that a Polygon vertex is on the edges and inside the polygon?
   def upward_crossing?(point)
     (v1.y <= point.y) && (v2.y > point.y)
   end
@@ -31,17 +28,16 @@ class Edge
   end
 
   def is_left_of_line?(point)
-    compare_position(point) > EPSILON
+    compare_position(point) > 0
   end
 
   def is_right_of_line?(point)
-    compare_position(point) < EPSILON
+    compare_position(point) < 0
   end
 
   def is_on_line?(point)
-    compare_position.abs < EPSILON
+    compare_position == 0
   end
-
 
   # From http://geomalgorithms.com/a03-_inclusion.html
   #
