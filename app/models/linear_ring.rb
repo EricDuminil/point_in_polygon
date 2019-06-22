@@ -1,18 +1,30 @@
 class LinearRing
-  attr_reader :coordinates
+  attr_reader :edges, :vertices
 
   def initialize(coordinates)
-    @coordinates = coordinates
+    @vertices = coordinates.map{ |x, y| Point.new(x,y) }
     close_ring_if_needed!
+    @edges = vertices.each_cons(2){ |v1, v2| Edge.new(v1, v2) }
+  end
+
+  # http://geomalgorithms.com/a03-_inclusion.html
+  def winding_number(point)
+    edges.sum do |edge|
+
+    end
+  end
+
+  def coordinates
+    vertices.map(&:coordinates)
   end
 
   private
 
   def close_ring_if_needed!
-    coordinates = coordinates + [coordinates.first] unless closed?
+    vertices << vertices.first unless closed?
   end
 
   def closed?
-    coordinates.first == coordinates.last
+    p vertices.first == vertices.last
   end
 end

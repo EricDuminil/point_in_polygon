@@ -7,6 +7,7 @@ class Polygon
     calculate_bounding_box
   end
 
+  # https://en.wikipedia.org/wiki/Nonzero-rule
   def contains?(point)
     return false unless bounding_box_contains? point
     winding_number(point).nonzero?
@@ -17,9 +18,9 @@ class Polygon
       latitude_range.include?(point.latitude)
   end
 
-  # Algorithm described at http://geomalgorithms.com/a03-_inclusion.html
+  # https://en.wikipedia.org/wiki/Winding_number
   def winding_number(point)
-
+    rings.sum{ |ring| ring.winding_number(point) }
   end
 
   private

@@ -1,7 +1,18 @@
 class Point
-  attr_reader :longitude, :latitude
-  def initialize(longitude, latitude)
-    @longitude = Float(longitude)
-    @latitude = Float(latitude)
+  attr_reader :x, :y
+  alias :longitude :x
+  alias :latitude :y
+
+  def initialize(x, y)
+    @x = Float(x)
+    @y = Float(y)
+  end
+
+  def coordinates
+    [x, y]
+  end
+
+  def ==(other)
+    x == other.x && y == other.y
   end
 end
