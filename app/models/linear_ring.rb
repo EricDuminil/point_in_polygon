@@ -4,14 +4,11 @@ class LinearRing
   def initialize(coordinates)
     @vertices = coordinates.map{ |x, y| Point.new(x,y) }
     close_ring_if_needed!
-    @edges = vertices.each_cons(2){ |v1, v2| Edge.new(v1, v2) }
+    @edges = vertices.each_cons(2).map{ |v1, v2| Edge.new(v1, v2) }
   end
 
-  # http://geomalgorithms.com/a03-_inclusion.html
   def winding_number(point)
-    edges.sum do |edge|
-
-    end
+    edges.sum{ |edge| edge.winding_number(point) }
   end
 
   def coordinates
@@ -25,6 +22,6 @@ class LinearRing
   end
 
   def closed?
-    p vertices.first == vertices.last
+    vertices.first == vertices.last
   end
 end
