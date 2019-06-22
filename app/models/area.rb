@@ -6,6 +6,8 @@ class Area
     @@areas ||= import File.read(SOURCE)
   end
 
+  # Checks if a point is strictly inside at least one of the areas.
+  # Depending on polygon orientation and floating point errors, points on vertices or edges cannot be reliably considered to be inside the polygon.
   def self.contains?(longitude, latitude) # WARNING! Lon/Lat convention, as in GeoJSON
     point = Point.new(longitude, latitude)
     all.any? do |area|
