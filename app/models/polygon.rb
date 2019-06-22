@@ -23,10 +23,14 @@ class Polygon
     rings.sum{ |ring| ring.winding_number(point) }
   end
 
+  def coordinates
+    rings.flat_map(&:coordinates)
+  end
+
   private
 
   def calculate_bounding_box
-    lons, lats = rings.flat_map(&:coordinates).transpose
+    lons, lats = coordinates.transpose
     @longitude_range = Range.new(*lons.minmax)
     @latitude_range = Range.new(*lats.minmax)
   end
