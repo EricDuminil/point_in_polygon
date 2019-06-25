@@ -2,10 +2,10 @@ require 'rails_helper'
 
 # TODO: DRY Frankfurt & London!
 
-RSpec.describe V1::AreasController, type: :controller do
-  describe 'GET index' do
+RSpec.describe "V1::Areas", type: :request do
+  describe "GET /v1/areas" do
     it 'returns the list of the given areas in GeoJSON format' do
-      get :index
+      get "/v1/areas"
       json_response = response.body
       expect(json_response).to include('Polygon')
       areas = JSON.parse(json_response)
@@ -18,70 +18,70 @@ RSpec.describe V1::AreasController, type: :controller do
     end
   end
 
-  describe 'GET contain' do
+  describe 'GET /v1/areas/contain' do
     context 'when called with latitude & longitude params' do
       it 'returns with status 200' do
-        get :contain, params: { latitude: 0, longitude: 0 }
+        get "/v1/areas/contain", params: { latitude: 0, longitude: 0 }
         expect(response).to have_http_status(:success)
       end
 
       it 'returns a boolean' do
-        get :contain, params: { latitude: 0, longitude: 0 }
+        get "/v1/areas/contain", params: { latitude: 0, longitude: 0 }
         json_response = response.body
         is_inside = JSON.parse(json_response)
         expect(is_inside).to be(false).or be(true)
       end
 
       it 'returns true for Frankfurt' do
-        get :contain, params: { latitude: 50.1109, longitude: 8.6821 }
+        get "/v1/areas/contain", params: { latitude: 50.1109, longitude: 8.6821 }
         expect(response.body).to eq 'true'
       end
 
       it 'returns false for London' do
-        get :contain, params: { latitude: 51.5074, longitude: -0.1278 }
+        get "/v1/areas/contain", params: { latitude: 51.5074, longitude: -0.1278 }
         expect(response.body).to eq 'false'
       end
     end
 
     context 'when called with coordinates params' do
       it 'returns true for Frankfurt' do
-        get :contain, params: { coordinates: [8.6821, 50.1109] }
+        get "/v1/areas/contain", params: { coordinates: [8.6821, 50.1109] }
         expect(response.body).to eq 'true'
       end
 
       it 'returns false for London' do
-        get :contain, params: { coordinates: [-0.1278, 51.5074] }
+        get "/v1/areas/contain", params: { coordinates: [-0.1278, 51.5074] }
         expect(response.body).to eq 'false'
       end
     end
 
     context 'when called with a GeoJSON Point' do
       it 'returns true for Frankfurt' do
-        get :contain, params: { type: 'Point', coordinates: [8.6821, 50.1109] }, as: :json
+        get "/v1/areas/contain", params: { type: 'Point', coordinates: [8.6821, 50.1109] }, as: :json
         expect(response.body).to eq 'true'
       end
 
       it 'returns false for London' do
-        get :contain, params: { type: 'Point', coordinates: [-0.1278, 51.5074] }, as: :json
+        get "/v1/areas/contain", params: { type: 'Point', coordinates: [-0.1278, 51.5074] }, as: :json
         expect(response.body).to eq 'false'
       end
     end
 
     context 'when called with a GeoJSON Point Feature' do
       it 'returns true for Frankfurt' do
-        get :contain, params: { type: 'Feature', geometry: { type: 'Point', coordinates: [8.6821, 50.1109] } }, as: :json
+        get "/v1/areas/contain", params: { type: 'Feature', geometry: { type: 'Point', coordinates: [8.6821, 50.1109] } }, as: :json
         expect(response.body).to eq 'true'
       end
 
       it 'returns false for London' do
-        get :contain, params: { type: 'Feature', geometry: { type: 'Point', coordinates: [-0.1278, 51.5074] } }, as: :json
+        get "/v1/areas/contain", params: { type: 'Feature', geometry: { type: 'Point', coordinates: [-0.1278, 51.5074] } }, as: :json
         expect(response.body).to eq 'false'
       end
     end
 
     context 'when called without params' do
       it 'sends an error message' do
-        get :contain
+        get "/v1/areas/contain"
         expect(response).to have_http_status(:bad_request)
         expect(response.body).to include 'Invalid coordinates!'
       end
@@ -94,11 +94,11 @@ RSpec.describe V1::AreasController, type: :controller do
           { coordinates: %w[ABC DEF] },
           { coordinates: [1] },
           { id: 3 },
-          { type: 'Polygon', coordinates: [[[0.0, 1.0], [1.0, 0.0], [0.0, 0.0]]] }
+          { longitude: 9.18, coordinates: [9.18] }
         ]
 
         incorrect_params.each do |params|
-          get :contain, params: params
+          get "/v1/areas/contain", params: params
           expect(response).to have_http_status(:bad_request)
           expect(response.body).to include 'Invalid coordinates!'
         end
@@ -106,16 +106,22 @@ RSpec.describe V1::AreasController, type: :controller do
     end
   end
 
-  describe 'GET any_other_action' do
-    it 'routes to #unknown_route' do
-      expect(get: 'hello_world').to route_to(controller: 'application', action: 'unknown_route', path: 'hello_world')
+  %w(get post delete).each do |http_method|
+    describe "#{http_method.upcase} any_other_action" do
+      it 'returns 404 with a custom error message' do
+        %w(/ /hello_world /index /test.html /areas).each do |incorrect_url|
+          send(http_method, incorrect_url)
+          expect(response).to have_http_status(:not_found)
+          expect(response.body).to include('Visit https://github.com/EricDuminil/point_in_polygon for more info.')
+        end
+      end
     end
   end
 
-  describe 'POST any_action' do
-    it 'routes to #unknown_route' do
-      expect(post: 'contain').to route_to(controller: 'application', action: 'unknown_route', path: 'contain')
-      expect(post: 'hello_world').to route_to(controller: 'application', action: 'unknown_route', path: 'hello_world')
+  describe 'POST contain' do
+    it 'returns true for Frankfurt' do
+      post "/v1/areas/contain", params: { type: 'Feature', geometry: { type: 'Point', coordinates: [8.6821, 50.1109] } }, as: :json
+      expect(response.body).to eq 'true'
     end
   end
 end
