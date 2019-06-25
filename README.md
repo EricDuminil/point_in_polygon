@@ -11,7 +11,7 @@ This is a simple project, allowing me to play a bit with Rails/GeoJSON and 2D al
 
 ## Info
 
-* Written in Rails 2.5.3, with Ruby 2.4.1 on Linux.
+* Written in Rails 2.5.3, with Ruby 2.6.3 on Linux.
 * It doesn't use any external geo-utilities.
 * It uses [Winding number](https://en.wikipedia.org/wiki/Winding_number) with this [algorithm](http://geomalgorithms.com/a03-_inclusion.html).
 
