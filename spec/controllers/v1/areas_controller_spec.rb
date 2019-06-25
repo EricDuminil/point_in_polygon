@@ -114,6 +114,7 @@ RSpec.describe V1::AreasController, type: :controller do
 
   describe 'POST any_action' do
     it 'routes to #unknown_route' do
+      expect(post: 'contain').to route_to(controller: 'application', action: 'unknown_route', path: 'contain')
       expect(post: 'hello_world').to route_to(controller: 'application', action: 'unknown_route', path: 'hello_world')
     end
   end
