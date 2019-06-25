@@ -67,17 +67,15 @@ var getJSON = function(url, callback) {
 	xhr.open('GET', url, true);
 	xhr.responseType = 'json';
 	xhr.onload = function() {
-	var status = xhr.status;
-	if (status === 200) {
-		callback(null, xhr.response);
-	} else {
-		callback(status, xhr.response);
-	}
+		var status = xhr.status;
+		if (status === 200) {
+			callback(xhr.response);
+		}
 	};
 	xhr.send();
 };
 
-getJSON('../v1/areas/', (err, data) => {
+getJSON('../v1/areas/', data => {
 	var areas = L.geoJSON(data);
 	areas.addTo(mymap);
 	mymap.fitBounds(areas.getBounds());
@@ -85,12 +83,12 @@ getJSON('../v1/areas/', (err, data) => {
 
 function isInAreas(latlng){
     let url = '../v1/areas/contain?latitude='+latlng.lat+'&longitude='+latlng.lng;
-	getJSON(url, (err, is_inside) => {
-	    popup
-		.setLatLng(latlng)
-		.setContent(String(is_inside))
-		.openOn(mymap);
-	}
+	getJSON(url, isInside => {
+			popup
+			.setLatLng(latlng)
+			.setContent(String(isInside))
+			.openOn(mymap);
+		}
 	);
 };
 
